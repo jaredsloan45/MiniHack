@@ -30,12 +30,23 @@ public class BlackJack {
 
         int dealerscore = 0;
         int playerscore = 0;
+        int playeraces = 0;
+        int dealeraces = 0;
         Card dealer1 = cards.pop();
         System.out.println("Dealer's face up card is " + dealer1);
         dealerscore += updateScore(dealer1);
+        if(dealer1.getValue==11){
+            dealeraces+= 1;
+        }
         System.out.println("Dealer's score is: " + dealerscore);
         Card P1 = cards.pop();
         Card P2 = cards.pop();
+        if(P1.getValue ==11){
+            playeraces+=1;
+        }
+        if(P2.getValue ==11){
+            playeraces+=1;
+        }
         System.out.println("Your cards are " + P1 + " and " + P2);
         playerscore += (updateScore(P1) + updateScore(P2));
         System.out.println("Your score is: " + playerscore);
@@ -48,7 +59,14 @@ public class BlackJack {
             String response = input.next();
             if (response.compareToIgnoreCase("yes") == 0) {
                 Card P = cards.pop();
+                if(P.getValue ==11){
+                    playeraces+=1;
+                }
                 System.out.println("Your card is " + P);
+                if(playerscore + updateScore(P)>21){
+                    playerscore -= 10*playeraces
+                    playeraces = 0
+                }
                 playerscore += updateScore(P);
                 System.out.println("Your score is: " + playerscore);
             } else if (response.compareToIgnoreCase("no") == 0) {
@@ -77,7 +95,14 @@ public class BlackJack {
         //While loop for dealer
         while (dealerscore < playerscore) {
             Card P = cards.pop();
+            if(P.getValue ==11){
+                dealeraces+=1;
+            }
             System.out.println("The dealer's card is: " + P);
+            if(dealerscore + updateScore(P)>21){
+                dealerscore -= 10*dealeraces
+                dealeraces = 0
+            }
             dealerscore += updateScore(P);
             System.out.println("The dealer's score is " + dealerscore);
             System.out.println("...");
